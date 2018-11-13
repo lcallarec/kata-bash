@@ -6,7 +6,7 @@
   [ "$output" == "2014-05-24" ]
 }
 
-@test "Stdout : file redirection" {
+@test "Stdout : Redirect output to a file" {
   skip
   ./src/streams/stdout.sh "2018-05-24" ".stdout.out"
   out=$(cat .stdout.out)
@@ -27,13 +27,13 @@
   [ "$out" == "" ]
 }
 
-@test "Stdin : When no arg is given, output the content of stdin" {
+@test "Stdin : When no arg is given, output the content of stdin if there are any" {
   skip
   out=$(echo "20190101" | ./src/streams/stdout.sh)
   [ "$out" == "20190101" ]
 }
 
-@test "Stdin : double multiply chain" {
+@test "Stdin : multiply chain" {
   skip
   out=$(echo "2" | src/streams/double.sh | src/streams/double.sh)
   [ "$out" == "8" ]
@@ -46,8 +46,8 @@
 }
 
 # # Level 2
-# Before the existance of anonymous pipe and first IPC implementation ever
-@test "Named pipe" {
+# Prelude of anonymous pipe. Maybe the first IPC implementation ever ?
+@test "Named pipe : redirect output to a named pipe" {
   skip
   rm -f $whoami
   whoami=$(whoami)
@@ -58,7 +58,7 @@
 
 # stdout-wrapper script just calls src/streams/stdout.sh, with extra streams management
 # usage : stdout-wrapper.sh <output_file> <arguments given to stdout.sh>
-@test "Stdout to a file" {
+@test "Stdout : redirect to a given file" {
   skip
   ./src/streams/stdout-wrapper.sh "/tmp/stdout-wrapper.out" "hey, oh !"
   status=$?
@@ -67,7 +67,7 @@
 }
 
 # stdout-wrapper script just calls src/streams/stdout.sh, with extra streams management
-@test "Stdout & stderr to a file" {
+@test "Stdout & stderr : redirect to a given file" {
   skip
   ./src/streams/stdout-wrapper.sh "/tmp/stdout-wrapper.out"
   status=$?
